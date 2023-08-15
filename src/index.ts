@@ -3,10 +3,13 @@ import { config } from 'dotenv'
 import { GetCompaniesController } from './controllers/get_companies/get_companies'
 import { MongoGetCompaniesRepository } from './repositories/get_companies/mongo_get_companies'
 import { MongoClient } from './database/mongo'
+import { MongoCreateCompanyRepository } from './repositories/create_company/mongo_create_company'
+import { CreateCompanyController } from './controllers/create_company/create_company'
 
 const main = async () => {
   config()
   const app = express()
+  app.use(express.json())
 
   await MongoClient.connect()
 
@@ -25,6 +28,19 @@ const main = async () => {
     const response = await getCompaniesController.handle()
 
     res.status(response.statusCode).json(response.body)
+  })
+
+  app.post('/companies', async (req, res) => {
+    const mongoCreateCompanyRepository = new MongoCreateCompanyRepository()
+    const createCompanyController = new CreateCompanyController(
+      mongoCreateCompanyRepository
+    )
+
+    const { body, statusCode } = await createCompanyController.handle({
+      body: req.body
+    })
+
+    res.status(statusCode).send(body)
   })
 
   app.listen(port, () => {

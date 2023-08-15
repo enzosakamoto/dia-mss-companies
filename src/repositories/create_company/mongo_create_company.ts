@@ -3,10 +3,9 @@ import {
   CreateCompanyParams,
   ICreateCompanyRepository
 } from '../../controllers/create_company/protocols'
-import { MongoClient } from '../../database/mongo'
 import { Company } from '../../models/company'
 
-export class MongoCreateCompany implements ICreateCompanyRepository {
+export class MongoCreateCompanyRepository implements ICreateCompanyRepository {
   async createCompany(params: CreateCompanyParams): Promise<Company> {
     const { insertedId } = await MongoClient.db
       .collection('companies')
