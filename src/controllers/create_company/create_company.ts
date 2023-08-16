@@ -41,6 +41,13 @@ export class CreateCompanyController implements ICreateCompanyController {
           body: 'Image has invalid URL'
         }
 
+      if (httpRequest.body!.description.length < 10) {
+        return {
+          statusCode: 400,
+          body: 'Description must be at least 10 characters'
+        }
+      }
+
       const linkIsValid = validator.isURL(httpRequest.body!.link)
 
       if (!linkIsValid)
