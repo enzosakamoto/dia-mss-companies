@@ -29,11 +29,6 @@ export class MongoUpdateCompanyRepository implements IUpdateCompanyRepository {
       throw new Error('Company was not updated')
     }
 
-    const { _id, ...rest } = company
-
-    return {
-      id: _id.toHexString(),
-      ...rest
-    }
+    return MongoClient.map(company)
   }
 }

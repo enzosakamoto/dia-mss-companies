@@ -10,9 +10,6 @@ export class MongoGetCompaniesRepository implements IGetCompaniesRepository {
       .find({})
       .toArray()
 
-    return companies.map(({ _id, ...rest }) => ({
-      id: _id.toHexString(),
-      ...rest
-    }))
+    return companies.map((company) => MongoClient.map(company))
   }
 }

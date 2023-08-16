@@ -22,11 +22,6 @@ export class MongoCreateCompanyRepository implements ICreateCompanyRepository {
       throw new Error('Company was not created')
     }
 
-    const { _id, ...rest } = company
-
-    return {
-      id: _id.toHexString(),
-      ...rest
-    }
+    return MongoClient.map(company)
   }
 }

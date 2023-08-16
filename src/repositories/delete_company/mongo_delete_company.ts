@@ -22,11 +22,6 @@ export class MongoDeleteCompanyRepository implements IDeleteCompanyRepository {
       throw new Error('Company was not deleted')
     }
 
-    const { _id, ...rest } = company
-
-    return {
-      id: _id.toHexString(),
-      ...rest
-    }
+    return MongoClient.map(company)
   }
 }
