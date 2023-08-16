@@ -5,6 +5,8 @@ import { MongoGetCompaniesRepository } from './repositories/get_companies/mongo_
 import { MongoClient } from './database/mongo'
 import { MongoCreateCompanyRepository } from './repositories/create_company/mongo_create_company'
 import { CreateCompanyController } from './controllers/create_company/create_company'
+import { MongoUpdateCompanyRepository } from './repositories/update_company/mongo_update_company'
+import { UpdateCompanyController } from './controllers/update_company/update_company'
 
 const main = async () => {
   config()
@@ -38,6 +40,20 @@ const main = async () => {
 
     const { body, statusCode } = await createCompanyController.handle({
       body: req.body
+    })
+
+    res.status(statusCode).send(body)
+  })
+
+  app.patch('/companies/:id', async (req, res) => {
+    const mongoUpdateCompanyRepository = new MongoUpdateCompanyRepository()
+    const updateCompanyController = new UpdateCompanyController(
+      mongoUpdateCompanyRepository
+    )
+
+    const { body, statusCode } = await updateCompanyController.handle({
+      body: req.body,
+      params: req.params
     })
 
     res.status(statusCode).send(body)
