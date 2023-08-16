@@ -1,12 +1,14 @@
 import { Company } from '../../models/company'
-import { HttpRequest, HttpResponse } from '../protocols'
-import { IDeleteCompanyController, IDeleteCompanyRepository } from './protocols'
+import { HttpRequest, HttpResponse, IController } from '../protocols'
+import { IDeleteCompanyRepository } from './protocols'
 
-export class DeleteCompanyController implements IDeleteCompanyController {
+export class DeleteCompanyController implements IController {
   constructor(
     private readonly deleteCompanyRepository: IDeleteCompanyRepository
   ) {}
-  async handle(httpRequest: HttpRequest<any>): Promise<HttpResponse<Company>> {
+  async handle(
+    httpRequest: HttpRequest<unknown>
+  ): Promise<HttpResponse<Company>> {
     try {
       const id = httpRequest?.params?.id
 

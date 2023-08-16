@@ -1,22 +1,27 @@
 import validator from 'validator'
 import { Company } from '../../models/company'
-import { HttpRequest, HttpResponse } from '../protocols'
-import {
-  IUpdateCompanyController,
-  IUpdateCompanyRepository,
-  UpdateCompanyParams
-} from './protocols'
+import { HttpRequest, HttpResponse, IController } from '../protocols'
+import { IUpdateCompanyRepository, UpdateCompanyParams } from './protocols'
 
-export class UpdateCompanyController implements IUpdateCompanyController {
+export class UpdateCompanyController implements IController {
   constructor(
     private readonly updateCompanyRepository: IUpdateCompanyRepository
   ) {}
-  async handle(httpRequest: HttpRequest<any>): Promise<HttpResponse<Company>> {
+  async handle(
+    httpRequest: HttpRequest<UpdateCompanyParams>
+  ): Promise<HttpResponse<Company>> {
     try {
       // Gets the id from the request params
       const id = httpRequest?.params?.id
       // Gets the body from the request
       const body = httpRequest?.body
+
+      if (!body) {
+        return {
+          statusCode: 400,
+          body: 'Missing body'
+        }
+      }
 
       // If the company's id isn't provided, returns a 400 status code
       if (!id) {
@@ -58,7 +63,7 @@ export class UpdateCompanyController implements IUpdateCompanyController {
 
       // Verify if the company's image is provided and has a valid URL
       if (body.image) {
-        const imageUrlIsValid = validator.isURL(httpRequest.body!.image)
+        const imageUrlIsValid = validator.isURL(httpRequest.body!.image!)
 
         if (!imageUrlIsValid)
           return {
@@ -77,7 +82,7 @@ export class UpdateCompanyController implements IUpdateCompanyController {
 
       // Verify if the company's link is provided and has a valid URL
       if (body.link) {
-        const linkIsValid = validator.isURL(httpRequest.body!.link)
+        const linkIsValid = validator.isURL(httpRequest.body!.link!)
 
         if (!linkIsValid)
           return {

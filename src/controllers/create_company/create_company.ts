@@ -1,13 +1,9 @@
 import { Company } from '../../models/company'
-import { HttpRequest, HttpResponse } from '../protocols'
-import {
-  CreateCompanyParams,
-  ICreateCompanyController,
-  ICreateCompanyRepository
-} from './protocols'
+import { HttpRequest, HttpResponse, IController } from '../protocols'
+import { CreateCompanyParams, ICreateCompanyRepository } from './protocols'
 import validator from 'validator'
 
-export class CreateCompanyController implements ICreateCompanyController {
+export class CreateCompanyController implements IController {
   constructor(
     private readonly createCompanyRepository: ICreateCompanyRepository
   ) {}

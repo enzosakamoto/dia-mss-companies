@@ -1,4 +1,3 @@
-import { HttpRequest, HttpResponse } from './../protocols'
 import { Company } from '../../models/company'
 
 export interface UpdateCompanyParams {
@@ -6,10 +5,6 @@ export interface UpdateCompanyParams {
   image?: string
   description?: string
   link?: string
-}
-
-export interface IUpdateCompanyController {
-  handle(httpRequest: HttpRequest<any>): Promise<HttpResponse<Company>>
 }
 
 export interface IUpdateCompanyRepository {
