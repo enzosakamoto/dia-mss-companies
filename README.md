@@ -1,6 +1,6 @@
 # Microservices for DIP-CP Partners
 
-**RESTful API** based in **SOLID** principles for data controll and management of DIP-CP Partners. This Microservice applies useful concepts (**Dependency Injection**, **Repository Pattern** etc.) and use **MongoDB** as database.
+**RESTful API** based in **SOLID** principles for data controll and management of DIP-CP Partners. This Microservice applies useful concepts (**Dependency Injection**, **Repository Pattern** etc.) and use **MongoDB Atlas** as database.
 
 ## Table of contents
 
@@ -10,6 +10,8 @@
   - [Routes](#routes)
   - [Technologies](#technologies)
   - [Setup](#setup)
+  - [Environment Variables](#environment-variables)
+  - [Author](#author)
 
 ## Entity Structure
 
@@ -58,7 +60,7 @@ The company entity has the following structure:
 - Yarn
 - Typescript
 - Express
-- MongoDB
+- MongoDB Atlas
 
 ## Setup
 
@@ -68,3 +70,18 @@ Clone this repository and run the following commands:
 $ yarn install
 $ yarn start:dev
 ```
+
+The server will be running on `http://localhost:{PORT}`.
+
+**NOTE:** You must have a MongoDB Atlas running on your machine.
+
+## Environment Variables
+
+- `PORT` - Port where the server will be running.
+- `MONGODB_URL` - MongoDB Atlas URL.
+- `MONGODB_USERNAME` - MongoDB Atlas editor username.
+- `MONGODB_PASSWORD` - MongoDB Atlas editor password.
+
+## Author
+
+- [Enzo Sakamoto](https://github.com/enzosakamoto)
