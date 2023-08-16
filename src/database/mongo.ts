@@ -1,4 +1,6 @@
+import { IMongoCompany } from './../repositories/mongo_protocols'
 import { MongoClient as Mongo, Db } from 'mongodb'
+import { Company } from '../models/company'
 
 export const MongoClient = {
   client: undefined as unknown as Mongo,
@@ -21,5 +23,14 @@ export const MongoClient = {
     this.db = db
 
     console.log('Connected to MongoDB! 🚀')
+  },
+
+  map(company: IMongoCompany): Company {
+    const { _id, ...rest } = company
+
+    return {
+      id: _id.toHexString(),
+      ...rest
+    }
   }
 }
