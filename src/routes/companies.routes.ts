@@ -7,18 +7,33 @@ import { MongoUpdateCompanyRepository } from '../repositories/update_company/mon
 import { UpdateCompanyController } from '../controllers/update_company/update_company'
 import { MongoDeleteCompanyRepository } from '../repositories/delete_company/mongo_delete_company'
 import { DeleteCompanyController } from '../controllers/delete_company/delete_company_controller'
+import { MongoGetCompanyRepository } from '../repositories/get_company/mongo_get_company'
+import { GetCompanyController } from '../controllers/get_company/get_company'
 
 const router = express.Router()
 
 router.get('/', async (req, res) => {
-  const mongoGetUsersRepository = new MongoGetCompaniesRepository()
+  const mongoGetCompaniesRepository = new MongoGetCompaniesRepository()
   const getCompaniesController = new GetCompaniesController(
-    mongoGetUsersRepository
+    mongoGetCompaniesRepository
   )
 
   const response = await getCompaniesController.handle()
 
   res.status(response.statusCode).json(response.body)
+})
+
+router.get('/:id', async (req, res) => {
+  const mongoGetCompanyRepository = new MongoGetCompanyRepository()
+  const getCompanyController = new GetCompanyController(
+    mongoGetCompanyRepository
+  )
+
+  const { body, statusCode } = await getCompanyController.handle({
+    params: req.params
+  })
+
+  res.status(statusCode).send(body)
 })
 
 router.post('/', async (req, res) => {
