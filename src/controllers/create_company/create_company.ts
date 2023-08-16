@@ -21,7 +21,7 @@ export class CreateCompanyController implements ICreateCompanyController {
         if (!httpRequest?.body?.[field as keyof CreateCompanyParams]?.length) {
           return {
             statusCode: 400,
-            body: `Field ${field} is required}`
+            body: `Field ${field} is required`
           }
         }
       }

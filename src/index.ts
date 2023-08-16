@@ -7,6 +7,8 @@ import { MongoCreateCompanyRepository } from './repositories/create_company/mong
 import { CreateCompanyController } from './controllers/create_company/create_company'
 import { MongoUpdateCompanyRepository } from './repositories/update_company/mongo_update_company'
 import { UpdateCompanyController } from './controllers/update_company/update_company'
+import { DeleteCompanyController } from './controllers/delete_company/delete_company_controller'
+import { MongoDeleteCompanyRepository } from './repositories/delete_company/mongo_delete_company'
 
 const main = async () => {
   config()
@@ -53,6 +55,19 @@ const main = async () => {
 
     const { body, statusCode } = await updateCompanyController.handle({
       body: req.body,
+      params: req.params
+    })
+
+    res.status(statusCode).send(body)
+  })
+
+  app.delete('/companies/:id', async (req, res) => {
+    const mongoDeleteCompanyRepository = new MongoDeleteCompanyRepository()
+    const deleteCompanyController = new DeleteCompanyController(
+      mongoDeleteCompanyRepository
+    )
+
+    const { body, statusCode } = await deleteCompanyController.handle({
       params: req.params
     })
 
