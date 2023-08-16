@@ -2,6 +2,7 @@ import validator from 'validator'
 import { Company } from '../../models/company'
 import { HttpRequest, HttpResponse, IController } from '../protocols'
 import { IUpdateCompanyRepository, UpdateCompanyParams } from './protocols'
+import { badRequest, internalServerError } from '../helpers'
 
 export class UpdateCompanyController implements IController {
   constructor(
@@ -9,7 +10,7 @@ export class UpdateCompanyController implements IController {
   ) {}
   async handle(
     httpRequest: HttpRequest<UpdateCompanyParams>
-  ): Promise<HttpResponse<Company>> {
+  ): Promise<HttpResponse<Company | string>> {
     try {
       // Gets the id from the request params
       const id = httpRequest?.params?.id
@@ -17,18 +18,12 @@ export class UpdateCompanyController implements IController {
       const body = httpRequest?.body
 
       if (!body) {
-        return {
-          statusCode: 400,
-          body: 'Missing body'
-        }
+        return badRequest('Missing body')
       }
 
       // If the company's id isn't provided, returns a 400 status code
       if (!id) {
-        return {
-          statusCode: 400,
-          body: 'Missing company id'
-        }
+        return badRequest('Missing company id')
       }
 
       // Allowed fields to update
@@ -47,48 +42,33 @@ export class UpdateCompanyController implements IController {
 
       // If some fields aren't allowed to update, returns a 400 status code
       if (someFieldsIsNotAllowedToUpdate) {
-        return {
-          statusCode: 400,
-          body: 'Some fields are not allowed to be updated'
-        }
+        return badRequest('Some fields are not allowed to be updated')
       }
 
       // Verify if the company's name is provided and has at least 4 characters
-      if (body.name && body.name.length < 4) {
-        return {
-          statusCode: 400,
-          body: 'Name must be at least 4 characters'
-        }
+      if (body.name || body.name?.length == 0) {
+        if (body.name.length < 4)
+          return badRequest('Name must be at least 4 characters')
       }
 
       // Verify if the company's image is provided and has a valid URL
-      if (body.image) {
+      if (body.image || body.image?.length == 0) {
         const imageUrlIsValid = validator.isURL(httpRequest.body!.image!)
 
-        if (!imageUrlIsValid)
-          return {
-            statusCode: 400,
-            body: 'Image has invalid URL'
-          }
+        if (!imageUrlIsValid) return badRequest('Image has invalid URL')
       }
 
       // Verify if the company's description is provided and has at least 10 characters
-      if (body.description && body.description.length < 10) {
-        return {
-          statusCode: 400,
-          body: 'Description must be at least 10 characters'
-        }
+      if (body.description || body.description?.length == 0) {
+        if (body.description.length < 10)
+          return badRequest('Description must be at least 10 characters')
       }
 
       // Verify if the company's link is provided and has a valid URL
-      if (body.link) {
+      if (body.link || body.link?.length == 0) {
         const linkIsValid = validator.isURL(httpRequest.body!.link!)
 
-        if (!linkIsValid)
-          return {
-            statusCode: 400,
-            body: 'Link has invalid URL'
-          }
+        if (!linkIsValid) return badRequest('Link has invalid URL')
       }
 
       // Updates the company
@@ -99,10 +79,7 @@ export class UpdateCompanyController implements IController {
         body: company
       }
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: 'Something went wrong'
-      }
+      return internalServerError('Something went wrong')
     }
   }
 }

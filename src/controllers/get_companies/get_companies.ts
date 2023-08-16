@@ -1,22 +1,18 @@
-import { IController } from '../protocols'
+import { Company } from '../../models/company'
+import { internalServerError, ok } from '../helpers'
+import { HttpResponse, IController } from '../protocols'
 import { IGetCompaniesRepository } from './protocols'
 
 export class GetCompaniesController implements IController {
   constructor(
     private readonly getCompaniesRepository: IGetCompaniesRepository
   ) {}
-  async handle() {
+  async handle(): Promise<HttpResponse<Company[] | string>> {
     try {
       const companies = await this.getCompaniesRepository.getCompanies()
-      return {
-        statusCode: 200,
-        body: companies
-      }
+      return ok<Company[]>(companies)
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: 'Something went wrong'
-      }
+      return internalServerError('Something went wrong')
     }
   }
 }

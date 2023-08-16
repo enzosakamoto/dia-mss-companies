@@ -1,4 +1,5 @@
-import { Company } from '../../models/company'
+import { Company } from './../../models/company'
+import { badRequest, internalServerError, ok } from '../helpers'
 import { HttpRequest, HttpResponse, IController } from '../protocols'
 import { IDeleteCompanyRepository } from './protocols'
 
@@ -8,27 +9,19 @@ export class DeleteCompanyController implements IController {
   ) {}
   async handle(
     httpRequest: HttpRequest<unknown>
-  ): Promise<HttpResponse<Company>> {
+  ): Promise<HttpResponse<Company | string>> {
     try {
       const id = httpRequest?.params?.id
 
       if (!id) {
-        return {
-          statusCode: 400,
-          body: 'Missing company id'
-        }
+        return badRequest('Missing company id')
       }
 
       const company = await this.deleteCompanyRepository.deleteCompany(id)
-      return {
-        statusCode: 200,
-        body: company
-      }
+
+      return ok<Company>(company)
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: 'Something went wrong'
-      }
+      return internalServerError('Something went wrong')
     }
   }
 }
