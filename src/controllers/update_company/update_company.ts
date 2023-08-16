@@ -17,7 +17,7 @@ export class UpdateCompanyController implements IController {
       // Gets the body from the request
       const body = httpRequest?.body
 
-      if (!body) {
+      if (!body || Object.keys(body).length == 0) {
         return badRequest('Missing body')
       }
 
