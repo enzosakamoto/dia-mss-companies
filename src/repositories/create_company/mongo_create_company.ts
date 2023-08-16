@@ -4,6 +4,7 @@ import {
   ICreateCompanyRepository
 } from '../../controllers/create_company/protocols'
 import { Company } from '../../models/company'
+import { MongoCompany } from '../mongo_protocols'
 
 export class MongoCreateCompanyRepository implements ICreateCompanyRepository {
   async createCompany(params: CreateCompanyParams): Promise<Company> {
@@ -12,7 +13,7 @@ export class MongoCreateCompanyRepository implements ICreateCompanyRepository {
       .insertOne(params)
 
     const company = await MongoClient.db
-      .collection<Omit<Company, 'id'>>('companies')
+      .collection<MongoCompany>('companies')
       .findOne({
         _id: insertedId
       })

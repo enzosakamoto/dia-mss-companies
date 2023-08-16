@@ -2,11 +2,12 @@ import { ObjectId } from 'mongodb'
 import { IDeleteCompanyRepository } from '../../controllers/delete_company/protocols'
 import { MongoClient } from '../../database/mongo'
 import { Company } from '../../models/company'
+import { MongoCompany } from '../mongo_protocols'
 
 export class MongoDeleteCompanyRepository implements IDeleteCompanyRepository {
   async deleteCompany(id: string): Promise<Company> {
     const company = await MongoClient.db
-      .collection<Omit<Company, 'id'>>('companies')
+      .collection<MongoCompany>('companies')
       .findOne({ _id: new ObjectId(id) })
 
     if (!company) {

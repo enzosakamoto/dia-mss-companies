@@ -1,11 +1,12 @@
 import { IGetCompaniesRepository } from '../../controllers/get_companies/protocols'
 import { MongoClient } from '../../database/mongo'
 import { Company } from '../../models/company'
+import { MongoCompany } from '../mongo_protocols'
 
 export class MongoGetCompaniesRepository implements IGetCompaniesRepository {
   async getCompanies(): Promise<Company[]> {
     const companies = await MongoClient.db
-      .collection<Omit<Company, 'id'>>('companies')
+      .collection<MongoCompany>('companies')
       .find({})
       .toArray()
 

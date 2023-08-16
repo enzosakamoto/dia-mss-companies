@@ -5,6 +5,7 @@ import {
 } from '../../controllers/update_company/protocols'
 import { MongoClient } from '../../database/mongo'
 import { Company } from '../../models/company'
+import { MongoCompany } from '../mongo_protocols'
 
 export class MongoUpdateCompanyRepository implements IUpdateCompanyRepository {
   async updateCompany(
@@ -21,7 +22,7 @@ export class MongoUpdateCompanyRepository implements IUpdateCompanyRepository {
     )
 
     const company = await MongoClient.db
-      .collection<Omit<Company, 'id'>>('companies')
+      .collection<MongoCompany>('companies')
       .findOne({ _id: new ObjectId(id) })
 
     if (!company) {
