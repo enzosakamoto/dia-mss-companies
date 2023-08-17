@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import { config } from 'dotenv'
 import { MongoClient } from './database/mongo'
 import router from './routes/companies.routes'
@@ -6,6 +7,7 @@ import router from './routes/companies.routes'
 const main = async () => {
   config()
   const app = express()
+  app.use(cors())
   app.use(express.json())
 
   app.use('/companies', router)
