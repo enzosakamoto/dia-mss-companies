@@ -54,7 +54,7 @@ The company entity has the following structure:
       "link": [string (url)]
       }
       ```
-      All of these properties are optional, so it's possible update one property or all of them.
+      All of these properties are optional, so it's possible to update one property or all of them.
 - **DELETE**
   - `/companies/:id` - **Delete** a partner company.
     - **Returns:** The deleted company.
