@@ -4,7 +4,7 @@ import { config } from 'dotenv'
 import { MongoClient } from './database/mongo'
 import router from './routes/companies.routes'
 
-const main = async () => {
+const server = async () => {
   config()
   const app = express()
   app.use(cors())
@@ -25,4 +25,4 @@ const main = async () => {
   })
 }
 
-main()
+server()
