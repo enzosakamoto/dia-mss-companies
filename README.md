@@ -25,10 +25,13 @@ The company entity has the following structure:
 ## Routes
 
 - **GET**
-  - `/companies` - **Get** all partners companies
-  - `/companies/:id` - **Get** a partner company by id
+  - `/companies` - **Get** all partners companies.
+    - **Returns:** An array of companies.
+  - `/companies/:id` - **Get** a partner company by id.
+    - **Returns:** A company.
 - **POST**
   - `/companies` - **Create** a partner company.
+    - **Returns:** The created company.
     - **NOTE:** The body of the request must be a JSON object with the following structure:
       ```json
       {
@@ -41,6 +44,7 @@ The company entity has the following structure:
       The company's id will be generated automatically by MongoDB.
 - **PATCH**
   - `/companies/:id` - **Update** a partner company.
+    - **Returns:** The updated company.
     - **NOTE:** The body of the request must be a JSON object with the following structure:
       ```json
       {
@@ -50,9 +54,10 @@ The company entity has the following structure:
       "link": [string (url)]
       }
       ```
-      All of these properties are optional, so it's possible to update one property or all of them.
+      All of these properties are optional, so it's possible update one property or all of them.
 - **DELETE**
   - `/companies/:id` - **Delete** a partner company.
+    - **Returns:** The deleted company.
 
 ## Technologies
 
