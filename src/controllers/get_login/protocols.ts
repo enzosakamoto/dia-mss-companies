@@ -1,5 +1,4 @@
 import { User } from '../../models/user'
-import { HTTP_STATUS_CODE } from '../protocols'
 
 export interface GetLoginParams {
   username: string
@@ -7,8 +6,8 @@ export interface GetLoginParams {
 }
 
 export interface Login {
-  statusCode: HTTP_STATUS_CODE
-  body: any
+  message: string
+  token: string
 }
 
 export interface IGetLoginRepository {

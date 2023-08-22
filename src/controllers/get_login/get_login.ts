@@ -1,5 +1,10 @@
 import { badRequest, internalServerError } from '../helpers'
-import { HttpRequest, HttpResponse, IController } from '../protocols'
+import {
+  HTTP_STATUS_CODE,
+  HttpRequest,
+  HttpResponse,
+  IController
+} from '../protocols'
 import { GetLoginParams, IGetLoginRepository, Login } from './protocols'
 import jwt from 'jsonwebtoken'
 
@@ -7,7 +12,7 @@ export class GetLoginController implements IController {
   constructor(private readonly getLoginRepository: IGetLoginRepository) {}
   async handle(
     httpRequest: HttpRequest<GetLoginParams>
-  ): Promise<HttpResponse<any | string>> {
+  ): Promise<HttpResponse<Login | string>> {
     try {
       const requiredFields = ['username', 'password']
 
@@ -30,7 +35,7 @@ export class GetLoginController implements IController {
       const token = jwt.sign({ id: user.id }, secret)
 
       return {
-        statusCode: 200,
+        statusCode: HTTP_STATUS_CODE.OK,
         body: {
           message: 'Login successful',
           token
