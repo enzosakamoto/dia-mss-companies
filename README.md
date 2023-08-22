@@ -7,7 +7,8 @@
 - [Microservices for DIP-CP Partners](#microservices-for-dip-cp-partners)
   - [Table of contents](#table-of-contents)
   - [Entity Structure](#entity-structure)
-  - [Routes](#routes)
+  - [Companies - Routes](#companies---routes)
+  - [User - Routes](#user---routes)
   - [Technologies](#technologies)
   - [Setup](#setup)
   - [Environment Variables](#environment-variables)
@@ -22,7 +23,7 @@ The company entity has the following structure:
 - Description of the business segment: string
 - Company partner's website: string (url)
 
-## Routes
+## Companies - Routes
 
 - **GET**
   - `/companies` - **Get** all partners companies.
@@ -32,6 +33,7 @@ The company entity has the following structure:
 - **POST**
   - `/companies` - **Create** a partner company.
     - **Returns:** The created company.
+    - **NEEDS:** The login token.
     - **NOTE:** The body of the request must be a JSON object with the following structure:
       ```json
       {
@@ -45,6 +47,7 @@ The company entity has the following structure:
 - **PATCH**
   - `/companies/:id` - **Update** a partner company.
     - **Returns:** The updated company.
+    - **NEEDS:** The login token.
     - **NOTE:** The body of the request must be a JSON object with the following structure:
       ```json
       {
@@ -58,6 +61,19 @@ The company entity has the following structure:
 - **DELETE**
   - `/companies/:id` - **Delete** a partner company.
     - **Returns:** The deleted company.
+    - **NEEDS:** The login token.
+
+## User - Routes
+
+- **POST**
+  - `/login` - **Get** the login validation (**token**).
+    - **Returns:** If the login matchs, return the token for **POST**, **PATCH** and **DELETE** routes.
+      ```json
+      {
+      "username": [string],
+      "password": [string]
+      }
+      ```
 
 ## Technologies
 
