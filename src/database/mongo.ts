@@ -1,6 +1,7 @@
-import { IMongoCompany } from './../repositories/mongo_protocols'
+import { IMongoCompany, IMongoUser } from './../repositories/mongo_protocols'
 import { MongoClient as Mongo, Db } from 'mongodb'
 import { Company } from '../models/company'
+import { User } from '../models/user'
 
 export const MongoClient = {
   client: undefined as unknown as Mongo,
@@ -27,6 +28,15 @@ export const MongoClient = {
 
   map(company: IMongoCompany): Company {
     const { _id, ...rest } = company
+
+    return {
+      id: _id.toHexString(),
+      ...rest
+    }
+  },
+
+  userMap(user: IMongoUser): User {
+    const { _id, ...rest } = user
 
     return {
       id: _id.toHexString(),

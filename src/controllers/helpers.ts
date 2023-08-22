@@ -17,6 +17,13 @@ export const badRequest = (message: string): HttpResponse<string> => {
   }
 }
 
+export const noItemsFound = (message: string): HttpResponse<string> => {
+  return {
+    statusCode: HTTP_STATUS_CODE.NO_ITEMS_FOUND,
+    body: message
+  }
+}
+
 export const internalServerError = (message: string): HttpResponse<string> => {
   return {
     statusCode: HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR,
