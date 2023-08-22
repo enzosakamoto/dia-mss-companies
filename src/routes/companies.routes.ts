@@ -1,4 +1,5 @@
-import express from 'express'
+import jwt from 'jsonwebtoken'
+import express, { NextFunction, Request, Response } from 'express'
 import { MongoGetCompaniesRepository } from '../repositories/get_companies/mongo_get_companies'
 import { GetCompaniesController } from '../controllers/get_companies/get_companies'
 import { MongoCreateCompanyRepository } from '../repositories/create_company/mongo_create_company'
@@ -11,6 +12,33 @@ import { MongoGetCompanyRepository } from '../repositories/get_company/mongo_get
 import { GetCompanyController } from '../controllers/get_company/get_company'
 
 const router = express.Router()
+
+const tokenValidation = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Response | void => {
+  const authHeader: string | undefined = req.headers?.authorization
+  const token = authHeader?.split(' ')[1]
+
+  if (!token) {
+    return res.status(401).send({ message: 'No token provided.' })
+  }
+
+  try {
+    const secret = process.env.SECRET
+
+    if (!secret) {
+      throw new Error('Something went wrong')
+    }
+
+    jwt.verify(token, secret)
+
+    next()
+  } catch (error) {
+    res.status(401).send({ message: error })
+  }
+}
 
 router.get('/', async (req, res) => {
   const mongoGetCompaniesRepository = new MongoGetCompaniesRepository()
@@ -36,7 +64,7 @@ router.get('/:id', async (req, res) => {
   res.status(statusCode).send(body)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', tokenValidation, async (req, res) => {
   const mongoCreateCompanyRepository = new MongoCreateCompanyRepository()
   const createCompanyController = new CreateCompanyController(
     mongoCreateCompanyRepository
@@ -49,7 +77,7 @@ router.post('/', async (req, res) => {
   res.status(statusCode).send(body)
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', tokenValidation, async (req, res) => {
   const mongoUpdateCompanyRepository = new MongoUpdateCompanyRepository()
   const updateCompanyController = new UpdateCompanyController(
     mongoUpdateCompanyRepository
@@ -63,7 +91,7 @@ router.patch('/:id', async (req, res) => {
   res.status(statusCode).send(body)
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', tokenValidation, async (req, res) => {
   const mongoDeleteCompanyRepository = new MongoDeleteCompanyRepository()
   const deleteCompanyController = new DeleteCompanyController(
     mongoDeleteCompanyRepository
