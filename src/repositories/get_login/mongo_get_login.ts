@@ -4,7 +4,7 @@ import { User } from '../../models/user'
 import { MongoUser } from '../mongo_protocols'
 import bcrypt from 'bcrypt'
 
-export class MongoGetLogin implements IGetLoginRepository {
+export class MongoGetLoginRepository implements IGetLoginRepository {
   async getLogin(username: string, password: string): Promise<User> {
     const user = await MongoClient.db.collection<MongoUser>('users').findOne({
       username: username
