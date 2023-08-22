@@ -12,7 +12,7 @@ const server = async () => {
   app.use(express.json())
 
   app.use('/companies', router)
-  app.use('/users', userRouter)
+  app.use('/login', userRouter)
 
   await MongoClient.connect()
 
