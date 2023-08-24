@@ -37,10 +37,10 @@ The company entity has the following structure:
     - **NOTE:** The body of the request must be a JSON object with the following structure:
       ```json
       {
-      "name": [string],
-      "image": [string (url)],
-      "description": [string],
-      "link": [string (url)]
+        "name": [string],
+        "image": [string (url)],
+        "description": [string],
+        "link": [string (url)]
       }
       ```
       The company's id will be generated automatically by MongoDB.
@@ -51,10 +51,10 @@ The company entity has the following structure:
     - **NOTE:** The body of the request must be a JSON object with the following structure:
       ```json
       {
-      "name": [string],
-      "image": [string (url)],
-      "description": [string],
-      "link": [string (url)]
+        "name": [string],
+        "image": [string (url)],
+        "description": [string],
+        "link": [string (url)]
       }
       ```
       All of these properties are optional, so it's possible to update one property or all of them.
@@ -70,8 +70,8 @@ The company entity has the following structure:
     - **Returns:** If the login matchs, return the token for **POST**, **PATCH** and **DELETE** routes.
       ```json
       {
-      "username": [string],
-      "password": [string]
+        "username": [string],
+        "password": [string]
       }
       ```
 
